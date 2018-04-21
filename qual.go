@@ -15,12 +15,22 @@ type T interface {
 	Errorf(string, ...interface{})
 }
 
+// High is the same as Standard only it also includes all vendor
+// source.
+func High(t T) {
+	standard(true, t)
+}
+
 // Standard tests a set of metrics which might be considered necessary
-// for production code. This is ofcourse very opinionated, but it's
+// for production code. This is very opinionated, but the values are
 // based on community insights from various sources.
 func Standard(t T) {
-	CyclomaticComplexity(5, false, t)
-	SourceWidth(80, false, t)
+	standard(false, t)
+}
+
+func standard(includeVendor bool, t T) {
+	CyclomaticComplexity(5, includeVendor, t)
+	SourceWidth(80, includeVendor, t)
 }
 
 // SourceWidth fails if any go file contains lines exceeding maxChars.
