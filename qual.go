@@ -15,8 +15,8 @@ type T interface {
 	Errorf(string, ...interface{})
 }
 
-// High is the same as Standard only it also includes all vendor
-// source.
+// High is the same as Standard, only it includes all vendor
+// source as well.
 func High(t T) {
 	standard(true, t)
 }
