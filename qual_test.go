@@ -4,13 +4,18 @@ import (
 	"testing"
 )
 
-type sssh struct{}
+type nop struct{}
 
-func (t *sssh) Helper()                              {}
-func (t *sssh) Error(args ...interface{})            {}
-func (t *sssh) Errorf(s string, args ...interface{}) {}
+func (t *nop) Helper()                              {}
+func (t *nop) Error(args ...interface{})            {}
+func (t *nop) Errorf(s string, args ...interface{}) {}
 
 func TestCyclomaticComplexity(t *testing.T) {
 	CyclomaticComplexity(5, false, t)
-	CyclomaticComplexity(1, true, &sssh{})
+	CyclomaticComplexity(1, true, &nop{})
+}
+
+func TestSourceWidth(t *testing.T) {
+	SourceWidth(80, false, t)
+	SourceWidth(10, false, &nop{})
 }

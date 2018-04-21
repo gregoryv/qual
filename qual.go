@@ -1,9 +1,11 @@
 package qual
 
 import (
+	"bufio"
 	"container/list"
 	"github.com/gregoryv/find"
 	"github.com/gregoryv/gocyclo"
+	"os"
 	"strings"
 )
 
@@ -13,16 +15,32 @@ type T interface {
 	Errorf(string, ...interface{})
 }
 
-// CyclomaticComplexity fails if max is exceeded in any go files of this project.
+func SourceWidth(maxChars int, includeVendor bool, t T) {
+	t.Helper()
+	files := findGoFiles(includeVendor)
+	for _, file := range files {
+		fh, err := os.Open(file)
+		if err != nil {
+			t.Error(err)
+		}
+		scanner := bufio.NewScanner(fh)
+		no := 0
+		for scanner.Scan() {
+			no++
+			line := scanner.Text()
+			if len(line) > maxChars {
+				t.Errorf("%s:%v %s...", file, no, line[:maxChars])
+			}
+		}
+
+	}
+}
+
+// CyclomaticComplexity fails if max is exceeded in any go files of
+// this project.
 func CyclomaticComplexity(max int, includeVendor bool, t T) {
 	t.Helper()
-	found, _ := find.ByName("*.go", ".")
-	var files []string
-	if includeVendor {
-		files = toSlice(found)
-	} else {
-		files = exclude("vendor/", found)
-	}
+	files := findGoFiles(includeVendor)
 	result, ok := gocyclo.Assert(files, max)
 	if !ok {
 		t.Errorf("Exceeded maximum complexity %v", max)
@@ -30,6 +48,14 @@ func CyclomaticComplexity(max int, includeVendor bool, t T) {
 			t.Error(l)
 		}
 	}
+}
+
+func findGoFiles(includeVendor bool) (result []string) {
+	found, _ := find.ByName("*.go", ".")
+	if includeVendor {
+		return toSlice(found)
+	}
+	return exclude("vendor/", found)
 }
 
 func exclude(pattern string, files *list.List) (result []string) {

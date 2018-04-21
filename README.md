@@ -7,6 +7,8 @@
 Add a unit test to your project
 
     func Test_CodeQuality(t *testing.T) {
-	    // 5 good, ..., > 9 is bad
+	    //  < 5 good, ..., > 9 is bad
 	    CyclomaticComplexity(5, false, t)
+		// < 80 good, ..., > 100 is bad
+		SourceWidth(80, false, t)
     }
