@@ -1,6 +1,7 @@
 package qual
 
 import (
+	"os"
 	"testing"
 )
 
@@ -18,6 +19,10 @@ func TestCyclomaticComplexity(t *testing.T) {
 func TestSourceWidth(t *testing.T) {
 	SourceWidth(80, false, t)
 	SourceWidth(10, false, &nop{})
+	// And the error
+	os.Chmod("qual_test.go", 0200)
+	SourceWidth(10, false, &nop{})
+	os.Chmod("qual_test.go", 0644)
 }
 
 func TestStandard(t *testing.T) {
