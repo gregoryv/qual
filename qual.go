@@ -5,17 +5,23 @@ import (
 	"github.com/gregoryv/find"
 	"github.com/gregoryv/gocyclo"
 	"strings"
-	"testing"
 )
 
+type T interface {
+	Helper()
+	Error(...interface{})
+	Errorf(string, ...interface{})
+}
+
 // CyclomaticComplexity fails if max is exceeded in any go files of this project.
-func CyclomaticComplexity(max int, excludeVendor bool, t *testing.T) {
+func CyclomaticComplexity(max int, includeVendor bool, t T) {
+	t.Helper()
 	found, _ := find.ByName("*.go", ".")
 	var files []string
-	if excludeVendor {
-		files = exclude("vendor/", found)
-	} else {
+	if includeVendor {
 		files = toSlice(found)
+	} else {
+		files = exclude("vendor/", found)
 	}
 	result, ok := gocyclo.Assert(files, max)
 	if !ok {
