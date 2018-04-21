@@ -15,6 +15,16 @@ type T interface {
 	Errorf(string, ...interface{})
 }
 
+// Standard tests a set of metrics which might be considered necessary
+// for production code. This is ofcourse very opinionated, but it's
+// based on community insights from various sources.
+func Standard(t T) {
+	CyclomaticComplexity(5, false, t)
+	SourceWidth(80, false, t)
+}
+
+// SourceWidth fails if any go file contains lines exceeding maxChars.
+// All lines are considered, source and comments.
 func SourceWidth(maxChars int, includeVendor bool, t T) {
 	t.Helper()
 	files := findGoFiles(includeVendor)

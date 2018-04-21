@@ -19,3 +19,7 @@ func TestSourceWidth(t *testing.T) {
 	SourceWidth(80, false, t)
 	SourceWidth(10, false, &nop{})
 }
+
+func TestStandard(t *testing.T) {
+	Standard(t)
+}
