@@ -8,9 +8,15 @@ import (
 	"testing"
 )
 
-func CyclomaticComplexity(max int, t *testing.T) {
+// CyclomaticComplexity fails if max is exceeded in any go files of this project.
+func CyclomaticComplexity(max int, excludeVendor bool, t *testing.T) {
 	found, _ := find.ByName("*.go", ".")
-	files := exclude("vendor/", found)
+	var files []string
+	if excludeVendor {
+		files = exclude("vendor/", found)
+	} else {
+		files = toSlice(found)
+	}
 	result, ok := gocyclo.Assert(files, max)
 	if !ok {
 		t.Errorf("Exceeded maximum complexity %v", max)
@@ -26,6 +32,14 @@ func exclude(pattern string, files *list.List) (result []string) {
 		if !strings.Contains(s, pattern) {
 			result = append(result, s)
 		}
+	}
+	return
+}
+
+func toSlice(files *list.List) (result []string) {
+	for e := files.Front(); e != nil; e = e.Next() {
+		s, _ := e.Value.(string)
+		result = append(result, s)
 	}
 	return
 }
