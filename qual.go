@@ -30,12 +30,12 @@ func Standard(t T) {
 
 func standard(includeVendor bool, t T) {
 	CyclomaticComplexity(5, includeVendor, t)
-	SourceWidth(80, includeVendor, t)
+	LineLength(80, includeVendor, t)
 }
 
 // SourceWidth fails if any go file contains lines exceeding maxChars.
 // All lines are considered, source and comments.
-func SourceWidth(maxChars int, includeVendor bool, t T) {
+func LineLength(maxChars int, includeVendor bool, t T) {
 	t.Helper()
 	files := findGoFiles(includeVendor)
 	for _, file := range files {

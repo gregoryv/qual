@@ -18,12 +18,12 @@ func TestCyclomaticComplexity(t *testing.T) {
 	CyclomaticComplexity(1, true, mock)
 }
 
-func TestSourceWidth(t *testing.T) {
-	SourceWidth(80, false, t)
-	SourceWidth(10, false, mock)
+func TestLineLength(t *testing.T) {
+	LineLength(80, false, t)
+	LineLength(10, false, mock)
 	// And the error
 	os.Chmod("qual_test.go", 0200)
-	SourceWidth(10, false, mock)
+	LineLength(10, false, mock)
 	os.Chmod("qual_test.go", 0644)
 }
 
