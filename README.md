@@ -23,3 +23,9 @@ or use a more custom set of metrics
         // < 81 good, ..., > 100 is bad
         SourceWidth(80, false, t)
     }
+
+If you are really brave, do
+
+    func Test_CodeQuality(t *testing.T) {
+	    qual.High(t)
+	}
