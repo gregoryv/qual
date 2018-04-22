@@ -18,6 +18,7 @@ type T interface {
 // High is the same as Standard, only it includes all vendor
 // source as well.
 func High(t T) {
+	t.Helper()
 	standard(true, t)
 }
 
@@ -25,10 +26,12 @@ func High(t T) {
 // for production code. This is very opinionated, but the values are
 // based on community insights from various sources.
 func Standard(t T) {
+	t.Helper()
 	standard(false, t)
 }
 
 func standard(includeVendor bool, t T) {
+	t.Helper()
 	CyclomaticComplexity(5, includeVendor, t)
 	LineLength(80, includeVendor, t)
 }
