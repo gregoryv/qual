@@ -19,11 +19,11 @@ func TestCyclomaticComplexity(t *testing.T) {
 }
 
 func TestLineLength(t *testing.T) {
-	LineLength(80, false, t)
-	LineLength(10, false, mock)
+	LineLength(80, 4, false, t)
+	LineLength(10, 4, false, mock)
 	// And the error
 	os.Chmod("qual_test.go", 0200)
-	LineLength(10, false, mock)
+	LineLength(10, 4, false, mock)
 	os.Chmod("qual_test.go", 0644)
 }
 

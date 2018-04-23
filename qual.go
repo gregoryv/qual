@@ -33,12 +33,12 @@ func Standard(t T) {
 func standard(includeVendor bool, t T) {
 	t.Helper()
 	CyclomaticComplexity(5, includeVendor, t)
-	LineLength(80, includeVendor, t)
+	LineLength(80, 4, includeVendor, t)
 }
 
 // SourceWidth fails if any go file contains lines exceeding maxChars.
 // All lines are considered, source and comments.
-func LineLength(maxChars int, includeVendor bool, t T) {
+func LineLength(maxChars, tabSize int, includeVendor bool, t T) {
 	t.Helper()
 	files := findGoFiles(includeVendor)
 	for _, file := range files {
@@ -51,8 +51,12 @@ func LineLength(maxChars int, includeVendor bool, t T) {
 		for scanner.Scan() {
 			no++
 			line := scanner.Text()
+			tabSize := 4
+			tab := strings.Repeat(" ", tabSize)
+			line = strings.Replace(line, "\t", tab, -1) // tabs are 4 chars wide
 			if len(line) > maxChars {
-				t.Errorf("%s:%v %s...", file, no, line[:maxChars])
+				t.Errorf("Shorten %s:%v from %v to %v chars", file, no,
+					len(line), maxChars)
 			}
 		}
 

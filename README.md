@@ -15,16 +15,7 @@ Add a unit test to your project
 	    qual.Standard(t)
 	}
 
-or use a more custom set of metrics
-
-    func Test_CodeQualtiy(t *testing.T) {
-	    //  < 6 good, ..., > 9 is bad
-	    CyclomaticComplexity(5, false, t)
-        // < 81 good, ..., > 100 is bad
-        SourceWidth(80, false, t)
-    }
-
-If you are really brave, do
+or if you are really brave, do
 
     func Test_CodeQuality(t *testing.T) {
 	    qual.High(t)
