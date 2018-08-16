@@ -26,7 +26,7 @@ func assert(t T, msg string, v Vars, oks ...bool) (failed bool) {
 			t.Errorf("> %s", msg)
 			failed = true
 		}
-		t.Errorf("failed assert: %s", trueCase(scanLine(3, 0), i+1))
+		t.Errorf("  failed assert: %s", trueCase(scanLine(3, 0), i+1))
 	}
 	if failed {
 		// Log all Vars{...} with name and value
@@ -67,7 +67,7 @@ func logVars(t T, v Vars, parts string) {
 		default:
 			val = fmt.Sprintf("%v", v)
 		}
-		t.Log(">", strings.TrimSpace(vars[i]), "=", val)
+		t.Log("   ", strings.TrimSpace(vars[i]), "=", val)
 	}
 }
 

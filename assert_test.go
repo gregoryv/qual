@@ -47,20 +47,20 @@ func ExampleAssert() {
 		val == 2,
 		err != nil,
 	)
-	//output:
-	//> val, err := 1, fmt.Errorf("This is an error")
-	//failed assert: val == 2
-	//> val = 1
-	//> err = "This is an error"
+	// Output:
+	// > val, err := 1, fmt.Errorf("This is an error")
+	//   failed assert: val == 2
+	//     val = 1
+	//     err = "This is an error"
 }
 
 func ExampleAssert_oneline() {
 	val, err := 1, fmt.Errorf("This is an error")
 	Assert(t, Vars{val, err}, val == 2, err == nil)
-	//output:
-	//> val, err := 1, fmt.Errorf("This is an error")
-	//failed assert: val == 2
-	//failed assert: err == nil
-	//> val = 1
-	//> err = "This is an error"
+	// Output:
+	// > val, err := 1, fmt.Errorf("This is an error")
+	//   failed assert: val == 2
+	//   failed assert: err == nil
+	//     val = 1
+	//     err = "This is an error"
 }
