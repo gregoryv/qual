@@ -22,6 +22,7 @@ func AssertAbove(t T, v Vars, oks ...bool) (failed bool) {
 }
 
 func assert(t T, msg string, v Vars, oks ...bool) (failed bool) {
+	t.Helper()
 	for i, ok := range oks {
 		if !ok {
 			if !failed {
@@ -38,6 +39,7 @@ func assert(t T, msg string, v Vars, oks ...bool) (failed bool) {
 }
 
 func logVars(t T, v Vars, parts string) {
+	t.Helper()
 	i := strings.Index(parts, "{") + 1
 	j := strings.Index(parts, "}")
 	vars := strings.Split(parts[i:j], ",")
