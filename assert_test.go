@@ -67,14 +67,14 @@ var t = &mockT{}
 func ExampleAssert() {
 	// Some test expression
 	val, err := 1, fmt.Errorf("This is an error")
-	Assert(t, "Should not fail", Vars{val, err},
+	Assert(t, "Will fail", Vars{val, err},
 		val == 2,
 		err == nil,
 	)
 	//output:
-	//Should not fail
-	//val == 2 false
-	//err == nil false
+	//Will fail
+	//assert: val == 2
+	//assert: err == nil
 	//val = 1
 	//err = This is an error
 }
@@ -88,7 +88,7 @@ func ExampleAssertAbove() {
 	)
 	//output:
 	//val, err := 1, fmt.Errorf("This is an error")
-	//val == 2 false
+	//assert: val == 2
 	//val = 1
 	//err = This is an error
 }

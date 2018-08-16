@@ -12,34 +12,26 @@ type Vars []interface{}
 // Assert fails the given test if there are any non nil errors
 func Assert(t T, msg string, v Vars, oks ...bool) (failed bool) {
 	t.Helper()
+	return assert(t, msg, v, oks...)
+}
+
+func AssertAbove(t T, v Vars, oks ...bool) (failed bool) {
+	t.Helper()
+	return assert(t, above(2), v, oks...)
+}
+
+func assert(t T, msg string, v Vars, oks ...bool) (failed bool) {
 	for i, ok := range oks {
 		if !ok {
 			if !failed {
 				t.Errorf("%s", msg)
 				failed = true
 			}
-			t.Errorf("%s false", trueCase(i+1))
+			t.Errorf("assert: %s", trueCase(i+1))
 		}
 	}
 	if failed {
-		logVars(t, v, strings.Join(funcArgs(2), ","))
-	}
-	return
-}
-
-func AssertAbove(t T, v Vars, oks ...bool) (failed bool) {
-	t.Helper()
-	for i, ok := range oks {
-		if !ok {
-			if !failed {
-				t.Errorf("%s", above(2))
-				failed = true
-			}
-			t.Errorf("%s false", trueCase(i+1))
-		}
-	}
-	if failed {
-		logVars(t, v, strings.Join(funcArgs(2), ","))
+		logVars(t, v, strings.Join(funcArgs(3), ","))
 	}
 	return
 }
@@ -92,7 +84,7 @@ func me(nth int) string {
 
 // returns the variable name of the calling func
 func trueCase(nth int) string {
-	_, file, line, _ := runtime.Caller(2) // cannot fail in this context
+	_, file, line, _ := runtime.Caller(3) // cannot fail in this context
 	fh, _ := os.Open(file)
 	scanner := bufio.NewScanner(fh)
 	for i := 0; i < line+nth; i++ {
