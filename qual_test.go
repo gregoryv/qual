@@ -10,6 +10,7 @@ type nop struct{}
 func (t *nop) Helper()                              {}
 func (t *nop) Error(args ...interface{})            {}
 func (t *nop) Errorf(s string, args ...interface{}) {}
+func (t *nop) Log(args ...interface{})              {}
 
 var mock = &nop{}
 

@@ -7,10 +7,11 @@ import (
 	"strings"
 )
 
+type Vars []interface{}
+
 // Assert fails the given test if there are any non nil errors
-func Assert(t T, msg string, oks ...bool) {
+func Assert(t T, msg string, oks ...bool) (failed bool) {
 	t.Helper()
-	var failed bool
 	for i, ok := range oks {
 		if !ok {
 			if !failed {
@@ -20,11 +21,11 @@ func Assert(t T, msg string, oks ...bool) {
 			t.Errorf("%s false", trueCase(i+1))
 		}
 	}
+	return
 }
 
-func AssertAbove(t T, oks ...bool) {
+func AssertAbove(t T, v Vars, oks ...bool) (failed bool) {
 	t.Helper()
-	var failed bool
 	for i, ok := range oks {
 		if !ok {
 			if !failed {
@@ -33,6 +34,28 @@ func AssertAbove(t T, oks ...bool) {
 			}
 			t.Errorf("%s false", trueCase(i+1))
 		}
+	}
+	if failed {
+		logVars(t, v)
+	}
+	return
+}
+
+func logVars(t T, v Vars) {
+	parts := strings.Join(funcArgs(3), ",")
+	i := strings.Index(parts, "{") + 1
+	j := strings.Index(parts, "}")
+	vars := strings.Split(parts[i:j], ",")
+	for i, v := range v {
+		t.Log(strings.TrimSpace(vars[i]), "=", v)
+	}
+}
+
+func LogVars(t T, args ...interface{}) {
+	t.Helper()
+	parts := funcArgs(2)
+	for i, val := range args {
+		t.Log(strings.TrimSpace(parts[i+1]), "=", val)
 	}
 }
 
@@ -49,9 +72,8 @@ func above(nth int) string {
 	return strings.TrimSpace(str)
 }
 
-// returns the variable name of the calling func
-func me(nth int) string {
-	_, file, line, _ := runtime.Caller(2) // cannot fail in this context
+func funcArgs(n int) []string {
+	_, file, line, _ := runtime.Caller(n) // cannot fail in this context
 	fh, _ := os.Open(file)
 	scanner := bufio.NewScanner(fh)
 	for i := 0; i < line; i++ {
@@ -62,7 +84,15 @@ func me(nth int) string {
 	i := strings.Index(str, "(") + 1
 	// Assuming they are on the same line here
 	j := strings.Index(str, ")")
-	parts := strings.Split(str[i:j], ",")
+	if j == -1 {
+		return strings.Split(str[i:], ",")
+	}
+	return strings.Split(str[i:j], ",")
+}
+
+// returns the variable name of the calling func
+func me(nth int) string {
+	parts := funcArgs(3)
 	return strings.TrimSpace(parts[nth])
 }
 
