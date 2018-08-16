@@ -10,7 +10,7 @@ import (
 type Vars []interface{}
 
 // Assert fails the given test if there are any non nil errors
-func Assert(t T, msg string, oks ...bool) (failed bool) {
+func Assert(t T, msg string, v Vars, oks ...bool) (failed bool) {
 	t.Helper()
 	for i, ok := range oks {
 		if !ok {
@@ -20,6 +20,9 @@ func Assert(t T, msg string, oks ...bool) (failed bool) {
 			}
 			t.Errorf("%s false", trueCase(i+1))
 		}
+	}
+	if failed {
+		logVars(t, v, strings.Join(funcArgs(2), ","))
 	}
 	return
 }

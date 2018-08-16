@@ -34,21 +34,21 @@ func Test_me(t *testing.T) {
 	func(x int) {
 		argName = me(0)
 	}(year)
-	Assert(t, "me(1)",
+	Assert(t, "me(1)", Vars{year},
 		argName == "year",
 	)
 }
 
 func TestAssert(t *testing.T) {
 	val := 1
-	Assert(t, "",
+	Assert(t, "", Vars{val},
 		val == 1,
 	)
 	err := fmt.Errorf("some error")
-	Assert(&mockT{}, "",
+	Assert(&mockT{}, "", Vars{err},
 		err == nil,
 	)
-	Assert(&mockT{}, "x",
+	Assert(&mockT{}, "x", Vars{err},
 		err != nil,
 	)
 }
@@ -67,7 +67,7 @@ var t = &mockT{}
 func ExampleAssert() {
 	// Some test expression
 	val, err := 1, fmt.Errorf("This is an error")
-	Assert(t, "Should not fail",
+	Assert(t, "Should not fail", Vars{val, err},
 		val == 2,
 		err == nil,
 	)
@@ -75,6 +75,8 @@ func ExampleAssert() {
 	//Should not fail
 	//val == 2 false
 	//err == nil false
+	//val = 1
+	//err = This is an error
 }
 
 func ExampleAssertAbove() {
