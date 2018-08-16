@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 
-- Assert() and AssertAbove() funcs for readable assertions
+- Assert() func for readable assertions
 
 ### Changed
 

@@ -8,9 +8,10 @@ import (
 	"strings"
 )
 
+// Vars groups variables which will be logged on test failures
 type Vars []interface{}
 
-func AssertAbove(t T, v Vars, oks ...bool) (failed bool) {
+func Assert(t T, v Vars, oks ...bool) (failed bool) {
 	t.Helper()
 	return assert(t, above(2), v, oks...)
 }
@@ -20,13 +21,14 @@ func assert(t T, msg string, v Vars, oks ...bool) (failed bool) {
 	for i, ok := range oks {
 		if !ok {
 			if !failed {
-				t.Errorf("%s", msg)
+				t.Errorf("> %s", msg)
 				failed = true
 			}
-			t.Errorf("assert: %s", trueCase(i+1))
+			t.Errorf("failed assert: %s", trueCase(i+1))
 		}
 	}
 	if failed {
+		// Log all Vars{...} with name and value
 		logVars(t, v, strings.Join(funcArgs(3), ","))
 	}
 	return
@@ -45,7 +47,7 @@ func logVars(t T, v Vars, parts string) {
 		default:
 			val = fmt.Sprintf("%v", v)
 		}
-		t.Log(strings.TrimSpace(vars[i]), "=", val)
+		t.Log(">", strings.TrimSpace(vars[i]), "=", val)
 	}
 }
 
@@ -78,12 +80,6 @@ func funcArgs(n int) []string {
 		return strings.Split(str[i:], ",")
 	}
 	return strings.Split(str[i:j], ",")
-}
-
-// returns the variable name of the calling func
-func me(nth int) string {
-	parts := funcArgs(3)
-	return strings.TrimSpace(parts[nth])
 }
 
 // returns the variable name of the calling func
