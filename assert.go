@@ -2,6 +2,7 @@ package qual
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"runtime"
 	"strings"
@@ -41,7 +42,14 @@ func logVars(t T, v Vars, parts string) {
 	j := strings.Index(parts, "}")
 	vars := strings.Split(parts[i:j], ",")
 	for i, v := range v {
-		t.Log(strings.TrimSpace(vars[i]), "=", v)
+		var val string
+		switch v := v.(type) {
+		case string, error:
+			val = fmt.Sprintf("%q", v)
+		default:
+			val = fmt.Sprintf("%v", v)
+		}
+		t.Log(strings.TrimSpace(vars[i]), "=", val)
 	}
 }
 

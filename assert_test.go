@@ -76,7 +76,7 @@ func ExampleAssert() {
 	//assert: val == 2
 	//assert: err == nil
 	//val = 1
-	//err = This is an error
+	//err = "This is an error"
 }
 
 func ExampleAssertAbove() {
@@ -90,5 +90,5 @@ func ExampleAssertAbove() {
 	//val, err := 1, fmt.Errorf("This is an error")
 	//assert: val == 2
 	//val = 1
-	//err = This is an error
+	//err = "This is an error"
 }
