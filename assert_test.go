@@ -34,25 +34,10 @@ func Test_me(t *testing.T) {
 	func(x int) {
 		argName = me(0)
 	}(year)
-	Assert(t, "me(1)", Vars{year},
+	AssertAbove(t, Vars{argName},
 		argName == "year",
 	)
 }
-
-func TestAssert(t *testing.T) {
-	val := 1
-	Assert(t, "", Vars{val},
-		val == 1,
-	)
-	err := fmt.Errorf("some error")
-	Assert(&mockT{}, "", Vars{err},
-		err == nil,
-	)
-	Assert(&mockT{}, "x", Vars{err},
-		err != nil,
-	)
-}
-
 func Test_above(t *testing.T) {
 	val := 2
 	str := above(1)
@@ -63,21 +48,6 @@ func Test_above(t *testing.T) {
 }
 
 var t = &mockT{}
-
-func ExampleAssert() {
-	// Some test expression
-	val, err := 1, fmt.Errorf("This is an error")
-	Assert(t, "Will fail", Vars{val, err},
-		val == 2,
-		err == nil,
-	)
-	//output:
-	//Will fail
-	//assert: val == 2
-	//assert: err == nil
-	//val = 1
-	//err = "This is an error"
-}
 
 func ExampleAssertAbove() {
 	// Some test expression

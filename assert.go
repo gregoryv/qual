@@ -10,12 +10,6 @@ import (
 
 type Vars []interface{}
 
-// Assert fails the given test if there are any non nil errors
-func Assert(t T, msg string, v Vars, oks ...bool) (failed bool) {
-	t.Helper()
-	return assert(t, msg, v, oks...)
-}
-
 func AssertAbove(t T, v Vars, oks ...bool) (failed bool) {
 	t.Helper()
 	return assert(t, above(2), v, oks...)
