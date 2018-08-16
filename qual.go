@@ -13,6 +13,7 @@ type T interface {
 	Helper()
 	Error(...interface{})
 	Errorf(string, ...interface{})
+	Log(...interface{})
 }
 
 // High is the same as Standard, only it includes all vendor
