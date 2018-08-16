@@ -5,14 +5,6 @@ import (
 	"testing"
 )
 
-func ExampleLogVars() {
-	val, err := 1, fmt.Errorf("some error")
-	LogVars(&mockT{}, val, err)
-	//output:
-	//val = 1
-	//err = some error
-}
-
 type mockT struct{}
 
 func (m *mockT) Helper() {}

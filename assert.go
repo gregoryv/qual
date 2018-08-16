@@ -36,26 +36,17 @@ func AssertAbove(t T, v Vars, oks ...bool) (failed bool) {
 		}
 	}
 	if failed {
-		logVars(t, v)
+		logVars(t, v, strings.Join(funcArgs(2), ","))
 	}
 	return
 }
 
-func logVars(t T, v Vars) {
-	parts := strings.Join(funcArgs(3), ",")
+func logVars(t T, v Vars, parts string) {
 	i := strings.Index(parts, "{") + 1
 	j := strings.Index(parts, "}")
 	vars := strings.Split(parts[i:j], ",")
 	for i, v := range v {
 		t.Log(strings.TrimSpace(vars[i]), "=", v)
-	}
-}
-
-func LogVars(t T, args ...interface{}) {
-	t.Helper()
-	parts := funcArgs(2)
-	for i, val := range args {
-		t.Log(strings.TrimSpace(parts[i+1]), "=", val)
 	}
 }
 
