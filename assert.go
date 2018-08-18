@@ -11,14 +11,14 @@ import (
 // Vars groups variables which will be logged on test failures
 type Vars []interface{}
 
-func Assert(t T, v Vars, oks ...bool) (failed bool) {
+func Assert(t T, v Vars, checks ...bool) (failed bool) {
 	t.Helper()
-	return assert(t, above(2), v, oks...)
+	return assert(t, above(2), v, checks...)
 }
 
-func assert(t T, msg string, v Vars, oks ...bool) (failed bool) {
+func assert(t T, msg string, v Vars, checks ...bool) (failed bool) {
 	t.Helper()
-	for i, ok := range oks {
+	for i, ok := range checks {
 		if ok {
 			continue
 		}
