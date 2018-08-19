@@ -13,27 +13,46 @@ type Vars []interface{}
 
 func Assert(t T, v Vars, checks ...bool) (failed bool) {
 	t.Helper()
-	str, _ := scanLine(2, -1)
+	str, err := scanLine(2, -1)
 	str = strings.TrimSpace(str)
-	return assert(t, str, v, checks...)
+	generic := err != nil
+	return assert(t, str, generic, v, checks...)
 }
 
-func assert(t T, msg string, v Vars, checks ...bool) (failed bool) {
+func assert(t T, msg string, generic bool, v Vars, checks ...bool) (failed bool) {
 	t.Helper()
 	for i, ok := range checks {
 		if ok {
 			continue
 		}
 		if !failed {
-			t.Errorf("> %s", msg)
+			if !generic {
+				t.Errorf("> %s", msg)
+			}
 			failed = true
 		}
-		str, _ := scanLine(3, 0) // todo handle error
-		t.Errorf("  failed assert: %s", trueCase(str, i+1))
+		if generic {
+			t.Errorf("  failed assert[%v]", i)
+		} else {
+			str, _ := scanLine(3, 0)
+			t.Errorf("  failed assert: %s", trueCase(str, i+1))
+		}
 	}
 	if failed {
 		// Log all Vars{...} with name and value
-		logVars(t, v, strings.Join(funcArgs(3), ","))
+		var args []string
+		var varsLine string
+		if !generic {
+			args, _ = funcArgs(3)
+			varsLine = strings.Join(args, ",")
+		} else {
+			args = make([]string, 0)
+			for i, _ := range v {
+				args = append(args, fmt.Sprintf("Vars[%v]", i))
+			}
+			varsLine = fmt.Sprintf("Vars{%s}", strings.Join(args, ","))
+		}
+		logVars(t, v, varsLine)
 	}
 	return
 }
@@ -77,17 +96,24 @@ func logVars(t T, v Vars, parts string) {
 	}
 }
 
-func funcArgs(n int) []string {
-	str, _ := scanLine(n+1, 0) // todo handle error
+func funcArgs(n int) (args []string, err error) {
+	str, err := scanLine(n+1, 0) // todo handle error
+	if err != nil {
+		return
+	}
 	i := strings.Index(str, "(") + 1
 	// Assuming they are on the same line here
 	j := strings.Index(str, ")")
 	if j == -1 {
-		return strings.Split(str[i:], ",")
+		args = strings.Split(str[i:], ",")
+	} else {
+		args = strings.Split(str[i:j], ",")
 	}
-	return strings.Split(str[i:j], ",")
+	return
 }
 
+// scanLine returns the line above the caller if back == 0. Fails if source
+// is not available.
 func scanLine(caller, back int) (string, error) {
 	_, file, line, ok := runtime.Caller(caller)
 	if !ok {
