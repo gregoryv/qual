@@ -22,6 +22,7 @@ func Assert(t T, v Vars, checks ...bool) (failed bool) {
 	return assert(t, str, v, checks...)
 }
 
+// assertNoScan generates errors with generic names
 func assertNoScan(t T, msg string, v Vars, checks ...bool) (failed bool) {
 	t.Helper()
 	for i, ok := range checks {
@@ -40,6 +41,7 @@ func assertNoScan(t T, msg string, v Vars, checks ...bool) (failed bool) {
 	return
 }
 
+// generateVarsLine returns a string Vars{Vars[0],...,Vars[n]}
 func generateVarsLine(n int) string {
 	var args []string
 	args = make([]string, 0)
