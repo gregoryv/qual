@@ -29,7 +29,7 @@ and very contained. It makes a good description in itself if the test
 should ever fail. However most packages try to solve this by providing
 short named func for operators within the language. E.g.
 
-    assert.Equals(t, a, b, "a and c be should be equal")
+    assert.Equals(t, a, b, "a and b be should be equal")
 
 This reads fairly well but if you consider adding a couple more of these
 statements
