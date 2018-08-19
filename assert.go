@@ -89,11 +89,14 @@ func funcArgs(n int) []string {
 }
 
 func scanLine(caller, back int) (string, error) {
-	_, file, line, ok := runtime.Caller(caller) // todo, handle error
+	_, file, line, ok := runtime.Caller(caller)
 	if !ok {
 		return "", fmt.Errorf("Unknown caller")
 	}
-	fh, _ := os.Open(file)
+	fh, err := os.Open(file)
+	if err != nil {
+		return "", err
+	}
 	scanner := bufio.NewScanner(fh)
 	for i := 0; i < line+back; i++ {
 		scanner.Scan()

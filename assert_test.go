@@ -2,6 +2,7 @@ package qual
 
 import (
 	"fmt"
+	"os"
 	"testing"
 )
 
@@ -73,7 +74,16 @@ func ExampleAssert_nil() {
 
 func Test_scanLine(t *testing.T) {
 	str, err := scanLine(29, 0)
-	Assert(t, Vars{str},
+	Assert(t, Vars{str, err},
+		str == "",
+		err != nil,
+	)
+
+	msg := "File does not exist"
+	os.Rename("assert_test.go", "m.go")
+	defer os.Rename("m.go", "assert_test.go")
+	str, err = scanLine(1, 0)
+	Assert(t, Vars{msg, str, err},
 		str == "",
 		err != nil,
 	)
