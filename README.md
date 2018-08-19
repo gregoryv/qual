@@ -34,7 +34,8 @@ other developers. We do this in various ways
 - writing readable code
 
 If we can write readable code, documentation can be minimized and that
-is always good, since we developers like to write code more.
+is always good, since developers tend to prefer writing code over
+documentation.
 
 ## Assert
 
@@ -47,15 +48,15 @@ short named func for operators within the language. E.g.
     assert.Equals(t, a, b, "a and b be should be equal")
 
 This reads fairly well but if you consider adding a couple more of these
-statements
+statements, readability starts to suffer
 
     a, b, c, d := SomeFancyFunc()
     assert.Equals(t, a, b, "a and b be should be equal")
     assert.NotEquals(t, a, c, "a and c should be different")
     assert.NotNil(t, d, "d should not be nil")
 
-now it starts to build up and get repetitive.
-Using the qual Assert func you can achieve the same thing
+and get repetitive.
+Using the Assert func you can achieve the same thing with
 
     a, b, c, d := SomeFancyFunc()
     Assert(t, Vars{a,b,c,d},
@@ -79,5 +80,6 @@ as
 
 What happens is the assert method parses out the context it's called in
 and prints the nearest line above it, so we know which statement we are
-actually testing. After that the failed assertions are listed and finaly
+actually testing. After that the failed assertions are listed and finally
 all the vars that are of interest are printed.
+More examples are provided in [godoc Assert](http://godoc.org/github.com/gregoryv/qual#Assert)
