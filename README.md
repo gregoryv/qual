@@ -21,6 +21,14 @@ or if you are really brave, do
 	    qual.High(t)
 	}
 
+The predefined tests measure
+
+- code complexity
+- line width
+
+where the `qual.Standard` test only checks your package and `qual.High`
+also includes vendored code.
+
 ## Scope
 
 This package helps to improve code readability. Note, it's not
