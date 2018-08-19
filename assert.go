@@ -15,43 +15,52 @@ func Assert(t T, v Vars, checks ...bool) (failed bool) {
 	t.Helper()
 	str, err := scanLine(2, -1)
 	str = strings.TrimSpace(str)
-	generic := err != nil
-	return assert(t, str, generic, v, checks...)
+	if err != nil {
+		return assertNoScan(t, str, v, checks...)
+	}
+	return assert(t, str, v, checks...)
 }
 
-func assert(t T, msg string, generic bool, v Vars, checks ...bool) (failed bool) {
+func assertNoScan(t T, msg string, v Vars, checks ...bool) (failed bool) {
 	t.Helper()
 	for i, ok := range checks {
 		if ok {
 			continue
 		}
 		if !failed {
-			if !generic {
-				t.Errorf("> %s", msg)
-			}
 			failed = true
 		}
-		if generic {
-			t.Errorf("  failed assert[%v]", i)
-		} else {
-			str, _ := scanLine(3, 0)
-			t.Errorf("  failed assert: %s", trueCase(str, i+1))
+		t.Errorf("  failed assert[%v]", i)
+	}
+	if failed {
+		var args []string
+		args = make([]string, 0)
+		for i, _ := range v {
+			args = append(args, fmt.Sprintf("Vars[%v]", i))
 		}
+		varsLine := fmt.Sprintf("Vars{%s}", strings.Join(args, ","))
+		logVars(t, v, varsLine)
+	}
+	return
+}
+
+func assert(t T, msg string, v Vars, checks ...bool) (failed bool) {
+	t.Helper()
+	for i, ok := range checks {
+		if ok {
+			continue
+		}
+		if !failed {
+			t.Errorf("> %s", msg)
+			failed = true
+		}
+		str, _ := scanLine(3, 0)
+		t.Errorf("  failed assert: %s", trueCase(str, i+1))
 	}
 	if failed {
 		// Log all Vars{...} with name and value
-		var args []string
-		var varsLine string
-		if !generic {
-			args, _ = funcArgs(3)
-			varsLine = strings.Join(args, ",")
-		} else {
-			args = make([]string, 0)
-			for i, _ := range v {
-				args = append(args, fmt.Sprintf("Vars[%v]", i))
-			}
-			varsLine = fmt.Sprintf("Vars{%s}", strings.Join(args, ","))
-		}
+		args, _ := funcArgs(3)
+		varsLine := strings.Join(args, ",")
 		logVars(t, v, varsLine)
 	}
 	return
