@@ -16,6 +16,7 @@ func Assert(t T, v Vars, checks ...bool) (failed bool) {
 	str, err := scanLine(2, -1)
 	str = strings.TrimSpace(str)
 	if err != nil {
+		// If a scanning error occured use a generic error message
 		return assertNoScan(t, str, v, checks...)
 	}
 	return assert(t, str, v, checks...)
@@ -33,15 +34,19 @@ func assertNoScan(t T, msg string, v Vars, checks ...bool) (failed bool) {
 		t.Errorf("  failed assert[%v]", i)
 	}
 	if failed {
-		var args []string
-		args = make([]string, 0)
-		for i, _ := range v {
-			args = append(args, fmt.Sprintf("Vars[%v]", i))
-		}
-		varsLine := fmt.Sprintf("Vars{%s}", strings.Join(args, ","))
+		varsLine := generateVarsLine(len(v))
 		logVars(t, v, varsLine)
 	}
 	return
+}
+
+func generateVarsLine(n int) string {
+	var args []string
+	args = make([]string, 0)
+	for i := 0; i < n; i++ {
+		args = append(args, fmt.Sprintf("Vars[%v]", i))
+	}
+	return fmt.Sprintf("Vars{%s}", strings.Join(args, ","))
 }
 
 func assert(t T, msg string, v Vars, checks ...bool) (failed bool) {
@@ -59,7 +64,7 @@ func assert(t T, msg string, v Vars, checks ...bool) (failed bool) {
 	}
 	if failed {
 		// Log all Vars{...} with name and value
-		args, _ := funcArgs(3)
+		args := funcArgs(3)
 		varsLine := strings.Join(args, ",")
 		logVars(t, v, varsLine)
 	}
@@ -74,7 +79,7 @@ func trueCase(str string, nth int) string {
 		parts := strings.Split(str[i:j], ",")
 		return strings.TrimSpace(parts[nth])
 	}
-	str, _ = scanLine(4, nth) // todo handle error
+	str, _ = scanLine(4, nth)
 	// Assuming they are on the same line here
 	j := strings.Index(str, ",")
 	// if j is -1 then the compiler should fail
@@ -105,11 +110,10 @@ func logVars(t T, v Vars, parts string) {
 	}
 }
 
-func funcArgs(n int) (args []string, err error) {
-	str, err := scanLine(n+1, 0) // todo handle error
-	if err != nil {
-		return
-	}
+func funcArgs(n int) (args []string) {
+	str, _ := scanLine(n+1, 0)
+	// Scanning failures should be caught in Assert so we don't handle it here
+
 	i := strings.Index(str, "(") + 1
 	// Assuming they are on the same line here
 	j := strings.Index(str, ")")
