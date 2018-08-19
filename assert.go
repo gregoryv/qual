@@ -67,6 +67,9 @@ func logVars(t T, v Vars, parts string) {
 		default:
 			val = fmt.Sprintf("%v", v)
 		}
+		if v == nil {
+			val = "nil"
+		}
 		t.Log("   ", strings.TrimSpace(vars[i]), "=", val)
 	}
 }

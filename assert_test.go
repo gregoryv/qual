@@ -40,7 +40,7 @@ func Test_above(t *testing.T) {
 var t = &mockT{}
 
 func ExampleAssert() {
-	// In this example the Assert cal fails to show it's output.  The
+	// In this example the Assert call fails to show the output.  The
 	// line just above Assert(...) will be printed for context if an
 	// error occurs.
 	val, err := 1, fmt.Errorf("This is an error")
@@ -64,4 +64,18 @@ func ExampleAssert_oneline() {
 	//   failed assert: err == nil
 	//     val = 1
 	//     err = "This is an error"
+}
+
+func ExampleAssert_nil() {
+	var err error
+	val, err := 9, nil
+	Assert(t, Vars{val, err},
+		val == 9,
+		err != nil,
+	)
+	// Output:
+	// > val, err := 9, nil
+	//   failed assert: err != nil
+	//     val = 9
+	//     err = nil
 }
