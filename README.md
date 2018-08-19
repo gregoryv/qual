@@ -57,10 +57,10 @@ as
 
     > a, b, c, d := SomeFancyFunc()
 	  failed assert: a != c
-	    a = 1
-		b = 1
-		c = 1
-		d = nil
+        a = 1
+        b = 1
+        c = 1
+        d = nil
 
 What happens is the assert method parses out the context it's called in
 and prints the nearest line above it, so we know which statement we are
