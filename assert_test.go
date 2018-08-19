@@ -20,20 +20,11 @@ func (m *mockT) Errorf(format string, args ...interface{}) {
 	fmt.Println()
 }
 
-func TestAssertAbove(t *testing.T) {
+func TestAssert(t *testing.T) {
 	val, err := 1, fmt.Errorf("some error")
 	Assert(&mockT{}, Vars{val, err},
 		val == 1,
 		err != nil,
-	)
-}
-
-func Test_above(t *testing.T) {
-	val := 2
-	str := above(1)
-	Assert(t, Vars{val, str},
-		str == "val := 2",
-		val == 2,
 	)
 }
 
@@ -78,4 +69,12 @@ func ExampleAssert_nil() {
 	//   failed assert: err != nil
 	//     val = 9
 	//     err = nil
+}
+
+func Test_scanLine(t *testing.T) {
+	str, err := scanLine(29, 0)
+	Assert(t, Vars{str},
+		str == "",
+		err != nil,
+	)
 }

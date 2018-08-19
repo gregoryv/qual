@@ -13,7 +13,9 @@ type Vars []interface{}
 
 func Assert(t T, v Vars, checks ...bool) (failed bool) {
 	t.Helper()
-	return assert(t, above(2), v, checks...)
+	str, _ := scanLine(2, -1)
+	str = strings.TrimSpace(str)
+	return assert(t, str, v, checks...)
 }
 
 func assert(t T, msg string, v Vars, checks ...bool) (failed bool) {
@@ -26,7 +28,8 @@ func assert(t T, msg string, v Vars, checks ...bool) (failed bool) {
 			t.Errorf("> %s", msg)
 			failed = true
 		}
-		t.Errorf("  failed assert: %s", trueCase(scanLine(3, 0), i+1))
+		str, _ := scanLine(3, 0) // todo handle error
+		t.Errorf("  failed assert: %s", trueCase(str, i+1))
 	}
 	if failed {
 		// Log all Vars{...} with name and value
@@ -43,7 +46,7 @@ func trueCase(str string, nth int) string {
 		parts := strings.Split(str[i:j], ",")
 		return strings.TrimSpace(parts[nth])
 	}
-	str = scanLine(4, nth)
+	str, _ = scanLine(4, nth) // todo handle error
 	// Assuming they are on the same line here
 	j := strings.Index(str, ",")
 	// if j is -1 then the compiler should fail
@@ -74,14 +77,8 @@ func logVars(t T, v Vars, parts string) {
 	}
 }
 
-// returns the line above the caller
-func above(nth int) string {
-	str := scanLine(nth+1, -1)
-	return strings.TrimSpace(str)
-}
-
 func funcArgs(n int) []string {
-	str := scanLine(n+1, 0)
+	str, _ := scanLine(n+1, 0) // todo handle error
 	i := strings.Index(str, "(") + 1
 	// Assuming they are on the same line here
 	j := strings.Index(str, ")")
@@ -91,13 +88,16 @@ func funcArgs(n int) []string {
 	return strings.Split(str[i:j], ",")
 }
 
-func scanLine(caller, back int) string {
-	_, file, line, _ := runtime.Caller(caller) // todo, handle error
+func scanLine(caller, back int) (string, error) {
+	_, file, line, ok := runtime.Caller(caller) // todo, handle error
+	if !ok {
+		return "", fmt.Errorf("Unknown caller")
+	}
 	fh, _ := os.Open(file)
 	scanner := bufio.NewScanner(fh)
 	for i := 0; i < line+back; i++ {
 		scanner.Scan()
 	}
 	fh.Close()
-	return scanner.Text()
+	return scanner.Text(), nil
 }
