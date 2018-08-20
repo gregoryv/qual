@@ -102,6 +102,8 @@ func logVars(t T, v Vars, parts string) {
 		switch v := v.(type) {
 		case string, error:
 			val = fmt.Sprintf("%q", v)
+		case []byte:
+			val = string(v)
 		default:
 			val = fmt.Sprintf("%v", v)
 		}
