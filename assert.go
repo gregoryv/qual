@@ -98,20 +98,24 @@ func logVars(t T, v Vars, parts string) {
 	j := strings.Index(parts, "}")
 	vars := strings.Split(parts[i:j], ",")
 	for i, v := range v {
-		var val string
-		switch v := v.(type) {
-		case string, error:
-			val = fmt.Sprintf("%q", v)
-		case []byte:
-			val = string(v)
-		default:
-			val = fmt.Sprintf("%v", v)
-		}
-		if v == nil {
-			val = "nil"
-		}
+		val := niceString(v)
 		t.Log("   ", strings.TrimSpace(vars[i]), "=", val)
 	}
+}
+
+func niceString(v interface{}) (val string) {
+	switch v := v.(type) {
+	case string, error:
+		val = fmt.Sprintf("%q", v)
+	case []byte:
+		val = fmt.Sprintf("%q", string(v))
+	default:
+		val = fmt.Sprintf("%v", v)
+	}
+	if v == nil {
+		val = "nil"
+	}
+	return
 }
 
 func funcArgs(n int) (args []string) {

@@ -35,15 +35,15 @@ func ExampleAssert() {
 	// In this example the Assert call fails to show the output.  The
 	// line just above Assert(...) will be printed for context if an
 	// error occurs.
-	val, err := 1, fmt.Errorf("This is an error")
+	val, err := []byte("an apple"), fmt.Errorf("This is an error")
 	Assert(t, Vars{val, err},
-		val == 2,
+		len(val) == 10,
 		err != nil,
 	)
 	// Output:
-	// > val, err := 1, fmt.Errorf("This is an error")
-	//   failed assert: val == 2
-	//     val = 1
+	// > val, err := []byte("an apple"), fmt.Errorf("This is an error")
+	//   failed assert: len(val) == 10
+	//     val = "an apple"
 	//     err = "This is an error"
 }
 
