@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+
+- Print calculated fix duration and estimated done date
+
 ### Fixed
 
 - Assert() generates generic messages when source code is not available
