@@ -98,7 +98,7 @@ var DefaultWeight = 20 * 60 * time.Second
 
 // FixDuration calculates the duration to fix all overloaded complexity.
 func FixDuration(complexity, max int) (exp time.Duration) {
-	return DefaultWeight * time.Duration(math.Exp2(float64(complexity-max)))
+	return DefaultWeight * time.Duration(math.Exp2(float64(complexity-max-1)))
 }
 
 func findGoFiles(includeVendor bool) (result []string) {

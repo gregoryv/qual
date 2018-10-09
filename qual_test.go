@@ -3,7 +3,23 @@ package qual
 import (
 	"os"
 	"testing"
+	"time"
 )
+
+func TestFixDuration(t *testing.T) {
+	for _, c := range []struct {
+		complexity, max int
+		exp             time.Duration
+	}{
+		{6, 5, DefaultWeight},
+		{7, 5, 2 * DefaultWeight}, // exponentially
+	} {
+		res := FixDuration(c.complexity, c.max)
+		Assert(t, Vars{res, c.exp},
+			res == c.exp,
+		)
+	}
+}
 
 type nop struct{}
 
