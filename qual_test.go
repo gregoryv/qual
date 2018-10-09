@@ -11,6 +11,7 @@ func TestFixDuration(t *testing.T) {
 		complexity, max int
 		exp             time.Duration
 	}{
+		{4, 5, 0},
 		{6, 5, DefaultWeight},
 		{7, 5, 2 * DefaultWeight}, // exponentially
 	} {
