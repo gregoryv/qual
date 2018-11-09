@@ -97,8 +97,13 @@ takes to fix the code from 6 to 5.
 var DefaultWeight = 20 * 60 * time.Second
 
 // FixDuration calculates the duration to fix all overloaded complexity.
+// Everything more complex than 14+max is timed as if 14.
 func FixDuration(complexity, max int) (exp time.Duration) {
-	return DefaultWeight * time.Duration(math.Exp2(float64(complexity-max-1)))
+	top := complexity - max - 1
+	if top > 14 {
+		top = 14
+	}
+	return DefaultWeight * time.Duration(math.Exp2(float64(top)))
 }
 
 func findGoFiles(includeVendor bool) (result []string) {

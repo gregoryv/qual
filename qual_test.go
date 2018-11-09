@@ -13,10 +13,12 @@ func TestFixDuration(t *testing.T) {
 	}{
 		{4, 5, 0},
 		{6, 5, DefaultWeight},
-		{7, 5, 2 * DefaultWeight}, // exponentially
+		{7, 5, 2 * DefaultWeight},          // exponentially
+		{21, 5, (1 << 14) * DefaultWeight}, // max, if no limit it would be
+		// 1 << 15
 	} {
 		res := FixDuration(c.complexity, c.max)
-		Assert(t, Vars{res, c.exp},
+		Assert(t, Vars{res, c.complexity, c.max, c.exp},
 			res == c.exp,
 		)
 	}
