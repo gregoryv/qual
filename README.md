@@ -45,10 +45,10 @@ If we can write readable code, documentation can be minimized and that
 is always good, since developers tend to prefer writing code over
 documentation.
 
-## Assert
+## <strike>Assert</strike> &raquo; Wrap
 
-For a period this package came with an Assert func that parsed code
-to create presentable error messages so we wouldn't have to write
-the descriptions in our tests every time. This prooved not to be as
-readable as I intended and I have thus removed it. However minimizing
-complexity by removing one pathway is still provided with the Wrap func.
+For a period this package came with an Assert func that parsed code to
+create presentable error messages. This proved to be less readable
+than intended. However minimizing complexity by removing one pathway
+is still provided with
+the [Wrap](https://godoc.org/github.com/gregoryv/qual#Wrap) func.
