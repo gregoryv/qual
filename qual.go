@@ -3,20 +3,14 @@ package qual
 import (
 	"bufio"
 	"container/list"
-	"github.com/gregoryv/find"
-	"github.com/gregoryv/gocyclo"
 	"math"
 	"os"
 	"strings"
 	"time"
-)
 
-type T interface {
-	Helper()
-	Error(...interface{})
-	Errorf(string, ...interface{})
-	Log(...interface{})
-}
+	"github.com/gregoryv/find"
+	"github.com/gregoryv/gocyclo"
+)
 
 // High is the same as Standard, only it includes all vendor
 // source as well.

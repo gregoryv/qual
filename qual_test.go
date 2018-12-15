@@ -7,6 +7,7 @@ import (
 )
 
 func TestFixDuration(t *testing.T) {
+	If := Wrap(t)
 	for _, c := range []struct {
 		complexity, max int
 		exp             time.Duration
@@ -17,21 +18,14 @@ func TestFixDuration(t *testing.T) {
 		{21, 5, (1 << 14) * DefaultWeight}, // max, if no limit it would be
 		// 1 << 15
 	} {
-		res := FixDuration(c.complexity, c.max)
-		Assert(t, Vars{res, c.complexity, c.max, c.exp},
-			res == c.exp,
+		got := FixDuration(c.complexity, c.max)
+		If(c.exp != got).Errorf(
+			"Expected %v got %v for testcase %#v", c.exp, got, c,
 		)
 	}
 }
 
-type nop struct{}
-
-func (t *nop) Helper()                              {}
-func (t *nop) Error(args ...interface{})            {}
-func (t *nop) Errorf(s string, args ...interface{}) {}
-func (t *nop) Log(args ...interface{})              {}
-
-var mock = &nop{}
+var mock = &noopT{}
 
 func TestCyclomaticComplexity(t *testing.T) {
 	CyclomaticComplexity(5, false, t)
