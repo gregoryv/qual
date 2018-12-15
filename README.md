@@ -49,6 +49,6 @@ documentation.
 
 For a period this package came with an Assert func that parsed code to
 create presentable error messages. This proved to be less readable
-than intended. However minimizing complexity by removing one pathway
-is still provided with
+than intended(available in 0.2.1). However minimizing complexity by
+removing one pathway is still provided with
 the [Wrap](https://godoc.org/github.com/gregoryv/qual#Wrap) func.
