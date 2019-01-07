@@ -4,10 +4,12 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	"github.com/gregoryv/asserter"
 )
 
 func TestFixDuration(t *testing.T) {
-	assert := Assert(t)
+	assert := asserter.New(t)
 	for _, c := range []struct {
 		complexity, max int
 		exp             time.Duration
@@ -19,7 +21,7 @@ func TestFixDuration(t *testing.T) {
 		// 1 << 15
 	} {
 		got := FixDuration(c.complexity, c.max)
-		assert(c.exp == got).Errorf(
+		assert(got == c.exp).Errorf(
 			"Expected %v got %v for testcase %#v", c.exp, got, c,
 		)
 	}

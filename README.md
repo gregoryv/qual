@@ -50,5 +50,5 @@ documentation.
 For a period this package came with an Assert func that parsed code to
 create presentable error messages. This proved to be less readable
 than intended(available in 0.2.1). However minimizing complexity by
-removing one pathway is still provided with
-the [Assert](https://godoc.org/github.com/gregoryv/qual#Assert) func.
+removing one pathway is still provided in
+ [asserter](https://godoc.org/github.com/gregoryv/asserter) package.
