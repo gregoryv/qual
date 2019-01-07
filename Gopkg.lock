@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/gregoryv/asserter"
+  packages = ["."]
+  revision = "52ca375e9d4f5ccec70d733a6c2cd20d5503a1b2"
+
+[[projects]]
   name = "github.com/gregoryv/find"
   packages = ["."]
   revision = "547deaf9d218fade63a9890caa24fdf61298c293"
@@ -16,6 +22,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "12090a054983810e91b1058ed5a68579159f8af29516798e4096df5e45746ae7"
+  inputs-digest = "4bfd398e6592303dbf5dd937518ee5ed5faaae756334bef49a4f4d7a73f5317b"
   solver-name = "gps-cdcl"
   solver-version = 1
