@@ -34,10 +34,10 @@ func (t *noopT) Skipf(string, ...interface{})  {}
 
 var ok *noopT = &noopT{}
 
-// Wrap returns an asserter for online assertions
-func Wrap(t T) AssertFunc {
+// Assert returns an asserter for online assertions.
+func Assert(t T) AssertFunc {
 	return func(expr bool) T {
-		if expr {
+		if !expr {
 			return t
 		}
 		return ok
