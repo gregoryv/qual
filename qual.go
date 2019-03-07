@@ -8,7 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gregoryv/find"
+	"github.com/gregoryv/qual/internal/find"
+
 	"github.com/gregoryv/gocyclo"
 )
 

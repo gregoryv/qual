@@ -24,7 +24,7 @@ func By(m Matcher, root string) (result *list.List, err error) {
 }
 
 // Returns a visitor that skips directories
-func newVisitor(m Matcher, result *list.List) func(string, os.FileInfo, error) error {
+func newVisitor(m Matcher, result *list.List) filepath.WalkFunc {
 	return func(path string, f os.FileInfo, err error) error {
 		if err != nil {
 			return err
