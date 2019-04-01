@@ -3,6 +3,7 @@ package qual
 import (
 	"bufio"
 	"container/list"
+	"fmt"
 	"math"
 	"os"
 	"strings"
@@ -39,6 +40,11 @@ func standard(includeVendor bool, t T) {
 func LineLength(maxChars, tabSize int, includeVendor bool, t T) {
 	t.Helper()
 	files := findGoFiles(includeVendor)
+	long := &lineChecker{
+		lines:    make([]string, 0),
+		maxChars: maxChars,
+		tab:      strings.Repeat(" ", tabSize),
+	}
 	for _, file := range files {
 		fh, err := os.Open(file)
 		if err != nil {
@@ -49,15 +55,32 @@ func LineLength(maxChars, tabSize int, includeVendor bool, t T) {
 		for scanner.Scan() {
 			no++
 			line := scanner.Text()
-			tabSize := 4
-			tab := strings.Repeat(" ", tabSize)
-			line = strings.Replace(line, "\t", tab, -1) // tabs are 4 chars wide
-			if len(line) > maxChars {
-				t.Errorf("Shorten %s:%v from %v to %v chars", file, no,
-					len(line), maxChars)
-			}
+			long.check(file, line, no)
 		}
+	}
+	long.failIfFound(t)
+}
 
+type lineChecker struct {
+	lines    []string
+	maxChars int
+	tab      string
+}
+
+func (long *lineChecker) check(file, line string, no int) {
+	line = strings.Replace(line, "\t", long.tab, -1) // tabs are 4 chars wide
+	if len(line) <= long.maxChars {
+		return
+	}
+	format := "%s:%v trim %v chars"
+	long.lines = append(long.lines, fmt.Sprintf(format, file, no,
+		len(line)-long.maxChars))
+}
+
+func (long *lineChecker) failIfFound(t T) {
+	if len(long.lines) > 0 {
+		format := "Following lines exceed the specified length %v\n%s"
+		t.Errorf(format, long.maxChars, strings.Join(long.lines, "\n"))
 	}
 }
 

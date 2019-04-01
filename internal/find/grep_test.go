@@ -42,15 +42,15 @@ func toString(res *list.List) string {
 	if res == nil {
 		return ""
 	}
-	lines := make([]string, 0, res.Len())
+	lineChecker := make([]string, 0, res.Len())
 	for e := res.Front(); e != nil; e = e.Next() {
 		if ref, ok := e.Value.(*Ref); ok {
-			lines = append(lines, ref.String())
+			lineChecker = append(lineChecker, ref.String())
 		} else {
-			lines = append(lines, "no")
+			lineChecker = append(lineChecker, "no")
 		}
 	}
-	return strings.Join(lines, ",")
+	return strings.Join(lineChecker, ",")
 }
 
 func Test_missing_file(t *testing.T) {
