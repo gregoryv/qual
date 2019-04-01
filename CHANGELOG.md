@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Changed
 
+- CyclomaticComplexity logs the total duration to fix
 - LineLength only shows which line to trim and by how much
 - Assert() removed, resulted in Not so readable output
 

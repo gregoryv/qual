@@ -102,7 +102,7 @@ func CyclomaticComplexity(max int, includeVendor bool, t T) {
 		}
 		total -= len(result) * max
 		t.Errorf("Total complexity overload %v expected to be done %v",
-			total, time.Now().Add(totalFixDur).Format(time.RFC3339))
+			total, totalFixDur)
 	}
 }
 
