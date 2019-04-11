@@ -78,6 +78,7 @@ func (long *lineChecker) check(file, line string, no int) {
 }
 
 func (long *lineChecker) failIfFound(t T) {
+	t.Helper()
 	if len(long.lines) > 0 {
 		format := "Following lines exceed the specified length %v\n%s"
 		t.Errorf(format, long.maxChars, strings.Join(long.lines, "\n"))
