@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 path=$1
 dir=$(dirname "$path")
