@@ -7,6 +7,9 @@ import (
 // Enforce test coverage without outside tools.
 // Make sure this is the last test in the package.
 func TestMinimumCoverage(t *testing.T) {
+	if testing.CoverMode() == "" {
+		t.Skip()
+	}
 	exp := 100.0
 	got := testing.Coverage() * 100.0
 	if got != exp {
