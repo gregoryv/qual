@@ -35,7 +35,7 @@ func standard(includeVendor bool, t T) {
 	LineLength(80, 4, includeVendor, t)
 }
 
-// SourceWidth fails if any go file contains lines exceeding maxChars.
+// LineLength fails if any go file contains lines exceeding maxChars.
 // All lines are considered, source and comments.
 func LineLength(maxChars, tabSize int, includeVendor bool, t T) {
 	t.Helper()
