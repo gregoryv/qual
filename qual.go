@@ -130,7 +130,7 @@ func findGoFiles(includeVendor bool) (result []string) {
 	if includeVendor {
 		return toSlice(found)
 	}
-	return exclude("vendor/", found)
+	return exclude("vendor"+string(os.PathSeparator), found)
 }
 
 func exclude(pattern string, files *list.List) (result []string) {
