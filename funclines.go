@@ -1,10 +1,12 @@
 package qual
 
 import (
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"path"
+	"strings"
 )
 
 // LineLength fails if any go file contains lines exceeding maxChars.
@@ -12,6 +14,7 @@ import (
 func FuncHeight(maxLines int, includeVendor bool, t T) {
 	t.Helper()
 	files := findGoFiles(includeVendor)
+	result := []string{}
 	for _, file := range files {
 		fset := token.NewFileSet()
 		f := parseFile(t, fset, file)
@@ -22,11 +25,20 @@ func FuncHeight(maxLines int, includeVendor bool, t T) {
 			case *ast.FuncDecl:
 				got := height(fset, x.Body)
 				if got > maxLines {
-					t.Errorf("Got %v", got)
+					r := fmt.Sprintf(
+						"%s:%v: %s",
+						file, fset.Position(x.Name.Pos()).Line, x.Name,
+					)
+					result = append(result, r)
 				}
 			}
 			return true
 		})
+	}
+	if len(result) > 0 {
+		t.Errorf("Func height %v exceeded in\n%s", maxLines,
+			strings.Join(result, "\n"),
+		)
 	}
 }
 
