@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// LineLength fails if any go file contains lines exceeding maxChars.
+// FuncHeight fails if any func body exceeds maxLines.
 // All lines are considered, source and comments.
 func FuncHeight(maxLines int, includeVendor bool, t T) {
 	t.Helper()
@@ -19,7 +19,6 @@ func FuncHeight(maxLines int, includeVendor bool, t T) {
 		fset := token.NewFileSet()
 		f := parseFile(t, fset, file)
 
-		// Inspect the AST and print all identifiers and literals.
 		ast.Inspect(f, func(n ast.Node) bool {
 			switch x := n.(type) {
 			case *ast.FuncDecl:
