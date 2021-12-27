@@ -1,10 +1,2 @@
-github.com/gregoryv/asserter v0.1.0 h1:p+0pvUOuUCn/rVy7YxafoxfXnYPfVptbExJOrWQy9sc=
-github.com/gregoryv/asserter v0.1.0/go.mod h1:iLD46IKZjjleTkmDikemRaDZQldDrq8uwTnygV/hC/M=
-github.com/gregoryv/asserter v0.4.0 h1:UkV6xSFVb/wvEidJ40Gt6WPSto/ODbtGOKWJ+uVTbZI=
-github.com/gregoryv/asserter v0.4.0/go.mod h1:WjMhNLh0zjyvgOQpWWx8Om0n7jlgMzTn7qgKhJeH8ew=
-github.com/gregoryv/find v0.0.0-20180328085109-1bbc2d70c482/go.mod h1:/xxQlO62bzxhyabf2iKJzGJa+VAJy25spLI/6ICTrxU=
-github.com/gregoryv/gocyclo v0.0.0-20180305144948-0be7902fabdc h1:chhF7lRELMFmxWl3AWbZ2UT1xQtN9nqFGyhL3jwGWDs=
-github.com/gregoryv/gocyclo v0.0.0-20180305144948-0be7902fabdc/go.mod h1:x/QA8cT1gfn/XriQ/CVNX7I8IM4Z2YJAAEWFym2clZI=
-github.com/gregoryv/gocyclo v0.1.0 h1:ZRLCMDzJPdeExgQr9nIJDkibEeSLCdXQ8Yj38d09KNE=
-github.com/gregoryv/gocyclo v0.1.0/go.mod h1:e1PwkEyshvXjhPGP0RUXqlEXx09aBSSNj0wL8I/P/3I=
-github.com/gregoryv/qual v0.2.1/go.mod h1:5M5kejbZgxtswBGeoXC1yh4CP94W3FFv5o60BflBlnY=
+github.com/gregoryv/gocyclo v0.1.1 h1:wRhY+jEiXtNqtxOSI1XfXmbRaRknzvVtO5QOSg5KVHo=
+github.com/gregoryv/gocyclo v0.1.1/go.mod h1:e1PwkEyshvXjhPGP0RUXqlEXx09aBSSNj0wL8I/P/3I=
