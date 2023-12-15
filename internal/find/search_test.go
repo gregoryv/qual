@@ -51,9 +51,9 @@ func ExampleByName() {
 			fmt.Println(s)
 		}
 	}
-	//output:
-	//a.txt
-	//b.txt
+	// output:
+	// a.txt
+	// b.txt
 }
 
 func testBy(t *testing.T) {
