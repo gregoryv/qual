@@ -3,7 +3,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/83083a5e52d4ffad3288/maintainability)](https://codeclimate.com/github/gregoryv/qual/maintainability)
 
 
-[qual](https://godoc.org/github.com/gregoryv/qual) - Go package for quality assessment at source code level
+[qual](https://godoc.org/github.com/gregoryv/qual) - Quality assessment at source code level
 
 ## Quick start
 
@@ -45,10 +45,3 @@ If we can write readable code, documentation can be minimized and that
 is always good, since developers tend to prefer writing code over
 documentation.
 
-## Assert
-
-For a period this package came with an Assert func that parsed code to
-create presentable error messages. This proved to be less readable
-than intended(available in 0.2.1). However minimizing complexity by
-removing one pathway is still provided in
- [asserter](https://godoc.org/github.com/gregoryv/asserter) package.

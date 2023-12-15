@@ -111,7 +111,6 @@ func CyclomaticComplexity(max int, includeVendor bool, t T) {
 DefaultWeight is the duration it takes to fix overloaded complexity level.
 E.g. if complexity is 6 and you've set max to 5 this is the duration it
 takes to fix the code from 6 to 5.
-
 */
 var DefaultWeight = 20 * 60 * time.Second
 
