@@ -1,4 +1,2 @@
-# github.com/gregoryv/asserter v0.0.0-20190107221939-52ca375e9d4f
-github.com/gregoryv/asserter
-# github.com/gregoryv/gocyclo v0.0.0-20180305144948-0be7902fabdc
+# github.com/gregoryv/gocyclo v0.1.1
 github.com/gregoryv/gocyclo

@@ -42,10 +42,8 @@ The output fields for each line are:
 		result, ok := gocyclo.Assert(files, max)
 		if !ok {
 			for _, l := range result {
-				fmt.Println(l)
+				t.Log(l)
 			}
 			t.Errorf("Exceeded maximum complexity %v", max)
 		}
 	}
-
-
