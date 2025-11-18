@@ -4,10 +4,8 @@ import (
 	"bufio"
 	"container/list"
 	"fmt"
-	"math"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/gregoryv/gocyclo"
 	"github.com/gregoryv/qual/internal/find"
@@ -100,36 +98,13 @@ func CyclomaticComplexity(max int, includeVendor bool, t T) {
 	files := findGoFiles(includeVendor)
 	result, ok := gocyclo.Assert(files, max)
 	total := 0
-	var totalFixDur time.Duration
 	if !ok {
 		t.Errorf("Exceeded maximum complexity %v", max)
 		for _, l := range result {
-			dur := FixDuration(l.Complexity, max)
-			t.Errorf("%s (%v to fix)", l, dur)
 			total += l.Complexity
-			totalFixDur += dur
 		}
 		total -= len(result) * max
-		t.Errorf("Total complexity overload %v expected to be done %v",
-			total, totalFixDur)
 	}
-}
-
-/*
-DefaultWeight is the duration it takes to fix overloaded complexity level.
-E.g. if complexity is 6 and you've set max to 5 this is the duration it
-takes to fix the code from 6 to 5.
-*/
-var DefaultWeight = 20 * 60 * time.Second
-
-// FixDuration calculates the duration to fix all overloaded complexity.
-// Everything more complex than 14+max is timed as if 14.
-func FixDuration(complexity, max int) (exp time.Duration) {
-	top := complexity - max - 1
-	if top > 14 {
-		top = 14
-	}
-	return DefaultWeight * time.Duration(math.Exp2(float64(top)))
 }
 
 func findGoFiles(includeVendor bool) (result []string) {
