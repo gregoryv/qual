@@ -16,7 +16,7 @@ import (
 func High(t T) {
 	t.Helper()
 	CyclomaticComplexity(5, true, t)
-	StandardLineLength.Test(t)
+	standardLineLength.Test(t)
 }
 
 // Standard tests a set of metrics which might be considered necessary
@@ -25,10 +25,10 @@ func High(t T) {
 func Standard(t T) {
 	t.Helper()
 	CyclomaticComplexity(5, false, t)
-	StandardLineLength.Test(t)
+	standardLineLength.Test(t)
 }
 
-var StandardLineLength = LineLength{
+var standardLineLength = LineLength{
 	MaxChars: 80,
 	TabSize:  4,
 }

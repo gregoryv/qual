@@ -15,7 +15,7 @@ func TestLineLength_Test(t *testing.T) {
 		LineLength
 		T
 	}{
-		{StandardLineLength, t},
+		{standardLineLength, t},
 	}
 	for _, c := range okCases {
 		t.Run("", func(t *testing.T) {
@@ -49,7 +49,7 @@ func TestLineLength_Test(t *testing.T) {
 		})
 	}
 	os.Chmod("qual_test.go", 0200)
-	StandardLineLength.Test(&noopT{})
+	standardLineLength.Test(&noopT{})
 	os.Chmod("qual_test.go", 0644)
 }
 
