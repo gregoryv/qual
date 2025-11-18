@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.5.0-dev]
 
+- Add func Gofumpt
 - Remove FixDuration, proven not very useful
 - Add field LineLength.IncludeGenerated, standard test now ignores
   generated files. I.e. those containing "DO NOT EDIT"
