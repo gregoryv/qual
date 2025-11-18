@@ -18,7 +18,8 @@ import (
 // source as well.
 func High(t T) {
 	t.Helper()
-	standard(true, t)
+	CyclomaticComplexity(5, true, t)
+	StandardLineLength.Test(t)
 }
 
 // Standard tests a set of metrics which might be considered necessary
@@ -26,12 +27,7 @@ func High(t T) {
 // based on community insights from various sources.
 func Standard(t T) {
 	t.Helper()
-	standard(false, t)
-}
-
-func standard(includeVendor bool, t T) {
-	t.Helper()
-	CyclomaticComplexity(5, includeVendor, t)
+	CyclomaticComplexity(5, false, t)
 	StandardLineLength.Test(t)
 }
 
