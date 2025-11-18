@@ -2,6 +2,10 @@
 This project adheres to semantic versioning.
 All notable changes to this project will be documented in this file.
 
+## [0.5.0-dev]
+
+- Move func LineLength to type LineLength with method Test
+
 ## [0.4.3] 2023-12-15
 
 - Update dependencies

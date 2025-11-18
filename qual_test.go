@@ -31,12 +31,38 @@ func TestCyclomaticComplexity(t *testing.T) {
 	CyclomaticComplexity(1, true, mock)
 }
 
-func TestLineLength(t *testing.T) {
-	LineLength(80, 4, false, t)
-	LineLength(10, 4, false, mock)
-	// And the error
+func TestLineLength_Test(t *testing.T) {
+	okCases := []struct {
+		LineLength
+		T
+	}{
+		{StandardLineLength, t},
+	}
+	for _, c := range okCases {
+		t.Run("", func(t *testing.T) {
+			c.LineLength.Test(c.T)
+		})
+	}
+
+	errCases := []struct {
+		LineLength
+		T
+	}{
+		{
+			LineLength: LineLength{
+				MaxChars: 10,
+				TabSize:  4,
+			},
+			T: mock,
+		},
+	}
+	for _, c := range errCases {
+		t.Run("", func(t *testing.T) {
+			c.LineLength.Test(c.T)
+		})
+	}
 	os.Chmod("qual_test.go", 0200)
-	LineLength(10, 4, false, mock)
+	StandardLineLength.Test(mock)
 	os.Chmod("qual_test.go", 0644)
 }
 

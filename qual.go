@@ -32,18 +32,30 @@ func Standard(t T) {
 func standard(includeVendor bool, t T) {
 	t.Helper()
 	CyclomaticComplexity(5, includeVendor, t)
-	LineLength(80, 4, includeVendor, t)
+	StandardLineLength.Test(t)
+}
+
+var StandardLineLength = LineLength{
+	MaxChars: 80,
+	TabSize:  4,
+}
+
+type LineLength struct {
+	MaxChars         int
+	TabSize          int
+	IncludeVendor    bool
+	IncludeGenerated bool
 }
 
 // LineLength fails if any go file contains lines exceeding maxChars.
 // All lines are considered, source and comments.
-func LineLength(maxChars, tabSize int, includeVendor bool, t T) {
+func (l *LineLength) Test(t T) {
 	t.Helper()
-	files := findGoFiles(includeVendor)
+	files := findGoFiles(l.IncludeVendor)
 	long := &lineChecker{
 		lines:    make([]string, 0),
-		maxChars: maxChars,
-		tab:      strings.Repeat(" ", tabSize),
+		maxChars: l.MaxChars,
+		tab:      strings.Repeat(" ", l.TabSize),
 	}
 	for _, file := range files {
 		fh, err := os.Open(file)
@@ -59,6 +71,7 @@ func LineLength(maxChars, tabSize int, includeVendor bool, t T) {
 		}
 	}
 	long.failIfFound(t)
+
 }
 
 type lineChecker struct {
