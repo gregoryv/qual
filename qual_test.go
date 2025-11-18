@@ -73,3 +73,9 @@ func TestStandard(t *testing.T) {
 func TestHigh(t *testing.T) {
 	High(mock)
 }
+
+type noopT struct{}
+
+func (t *noopT) Helper()                       {}
+func (t *noopT) Error(...interface{})          {}
+func (t *noopT) Errorf(string, ...interface{}) {}

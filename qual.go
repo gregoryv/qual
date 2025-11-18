@@ -45,6 +45,8 @@ type LineLength struct {
 	TabSize          int
 	IncludeVendor    bool
 	IncludeGenerated bool
+
+	failedLines []string
 }
 
 // LineLength fails if any go file contains lines exceeding maxChars.
@@ -52,11 +54,8 @@ type LineLength struct {
 func (l *LineLength) Test(t T) {
 	t.Helper()
 	files := findGoFiles(l.IncludeVendor)
-	long := &lineChecker{
-		lines:    make([]string, 0),
-		maxChars: l.MaxChars,
-		tab:      strings.Repeat(" ", l.TabSize),
-	}
+	tab := strings.Repeat(" ", l.TabSize)
+
 	for _, file := range files {
 		fh, err := os.Open(file)
 		if err != nil {
@@ -67,34 +66,27 @@ func (l *LineLength) Test(t T) {
 		for scanner.Scan() {
 			no++
 			line := scanner.Text()
-			long.check(file, line, no)
+			l.check(file, line, tab, no)
 		}
 	}
-	long.failIfFound(t)
-
+	l.failIfFound(t)
 }
 
-type lineChecker struct {
-	lines    []string
-	maxChars int
-	tab      string
-}
-
-func (long *lineChecker) check(file, line string, no int) {
-	line = strings.Replace(line, "\t", long.tab, -1) // tabs are 4 chars wide
-	if len(line) <= long.maxChars {
+func (l *LineLength) check(file, line, tab string, no int) {
+	line = strings.ReplaceAll(line, "\t", tab)
+	if len(line) <= l.MaxChars {
 		return
 	}
 	format := "%s:%v trim %v chars"
-	long.lines = append(long.lines, fmt.Sprintf(format, file, no,
-		len(line)-long.maxChars))
+	l.failedLines = append(l.failedLines, fmt.Sprintf(format, file, no,
+		len(line)-l.MaxChars))
 }
 
-func (long *lineChecker) failIfFound(t T) {
+func (l *LineLength) failIfFound(t T) {
 	t.Helper()
-	if len(long.lines) > 0 {
+	if len(l.failedLines) > 0 {
 		format := "Following lines exceed the specified length %v\n%s"
-		t.Errorf(format, long.maxChars, strings.Join(long.lines, "\n"))
+		t.Errorf(format, l.MaxChars, strings.Join(l.failedLines, "\n"))
 	}
 }
 
