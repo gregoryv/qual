@@ -24,11 +24,9 @@ func TestFixDuration(t *testing.T) {
 	}
 }
 
-var mock = &noopT{}
-
 func TestCyclomaticComplexity(t *testing.T) {
 	CyclomaticComplexity(5, false, t)
-	CyclomaticComplexity(1, true, mock)
+	CyclomaticComplexity(1, true, &noopT{})
 }
 
 func TestLineLength_Test(t *testing.T) {
@@ -53,7 +51,15 @@ func TestLineLength_Test(t *testing.T) {
 				MaxChars: 10,
 				TabSize:  4,
 			},
-			T: mock,
+			T: &noopT{},
+		},
+		{
+			LineLength: LineLength{
+				MaxChars:         80,
+				TabSize:          4,
+				IncludeGenerated: true,
+			},
+			T: &noopT{},
 		},
 	}
 	for _, c := range errCases {
@@ -62,7 +68,7 @@ func TestLineLength_Test(t *testing.T) {
 		})
 	}
 	os.Chmod("qual_test.go", 0200)
-	StandardLineLength.Test(mock)
+	StandardLineLength.Test(&noopT{})
 	os.Chmod("qual_test.go", 0644)
 }
 
@@ -71,7 +77,7 @@ func TestStandard(t *testing.T) {
 }
 
 func TestHigh(t *testing.T) {
-	High(mock)
+	High(&noopT{})
 }
 
 type noopT struct{}

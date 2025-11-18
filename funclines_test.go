@@ -46,10 +46,10 @@ func Test_countlines(t *testing.T) {
 }
 
 func TestFuncHeight(t *testing.T) {
-	FuncHeight(10, false, mock)
+	FuncHeight(10, false, &noopT{})
 }
 
 func Test_parseFile(t *testing.T) {
 	fset := token.NewFileSet()
-	parseFile(mock, fset, "something bad")
+	parseFile(&noopT{}, fset, "something bad")
 }

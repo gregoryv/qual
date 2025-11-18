@@ -9,9 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gregoryv/qual/internal/find"
-
 	"github.com/gregoryv/gocyclo"
+	"github.com/gregoryv/qual/internal/find"
 )
 
 // High is the same as Standard, only it includes all vendor
@@ -50,22 +49,30 @@ type LineLength struct {
 func (l *LineLength) Test(t T) {
 	t.Helper()
 	files := findGoFiles(l.IncludeVendor)
-	tab := strings.Repeat(" ", l.TabSize)
 
 	for _, file := range files {
 		fh, err := os.Open(file)
 		if err != nil {
 			t.Error(err)
 		}
-		scanner := bufio.NewScanner(fh)
-		no := 0
-		for scanner.Scan() {
-			no++
-			line := scanner.Text()
-			l.check(file, line, tab, no)
-		}
+		l.checkFile(file, fh)
+		fh.Close()
 	}
 	l.failIfFound(t)
+}
+
+func (l *LineLength) checkFile(file string, fh *os.File) {
+	scanner := bufio.NewScanner(fh)
+	no := 0
+	tab := strings.Repeat(" ", l.TabSize)
+	for scanner.Scan() {
+		no++
+		line := scanner.Text()
+		if !l.IncludeGenerated && strings.Contains(line, "DO NOT EDIT") {
+			return
+		}
+		l.check(file, line, tab, no)
+	}
 }
 
 func (l *LineLength) check(file, line, tab string, no int) {

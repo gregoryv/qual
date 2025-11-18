@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [0.5.0-dev]
 
+- Add field LineLength.IncludeGenerated, standard test now ignores
+  generated files. I.e. those containing "DO NOT EDIT"
 - Move func LineLength to type LineLength with method Test
 
 ## [0.4.3] 2023-12-15
