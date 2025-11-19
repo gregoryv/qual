@@ -1,7 +1,7 @@
 name: Publish Docker Image
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "build_image" ]
 
 jobs:
   push-ghcr:
@@ -17,7 +17,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build image
-        run: docker build -t ghcr.io/${{ github.repository_owner }}/qual:latest .
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/qual:0.1 .
 
       - name: Push image
-        run: docker push ghcr.io/${{ github.repository_owner }}/qual:latest
+        run: docker push ghcr.io/${{ github.repository_owner }}/qual:0.1
