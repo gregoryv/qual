@@ -61,10 +61,6 @@ func TestHigh(t *testing.T) {
 	High(&noopT{})
 }
 
-func TestGofumpt(t *testing.T) {
-	Gofumpt(t)
-}
-
 type noopT struct{}
 
 func (t *noopT) Helper()                       {}

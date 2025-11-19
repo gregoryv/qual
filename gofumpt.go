@@ -10,7 +10,7 @@ import (
 func Gofumpt(t T) {
 	t.Helper()
 	// List files that would change if gofumpt were applied
-	cmd := exec.Command("gofumpt", "-l", ".")
+	cmd := exec.Command(gofumptCmd, "-l", ".")
 	out, err := cmd.Output()
 	if err != nil {
 		t.Error("running gofumpt failed: ", err,
@@ -27,3 +27,5 @@ func Gofumpt(t T) {
 gofumpt -w .`, files)
 	}
 }
+
+var gofumptCmd = "gofumpt"
