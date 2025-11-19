@@ -78,9 +78,19 @@ func (l *LineLength) check(file, line, tab string, no int) {
 	if len(line) <= l.MaxChars {
 		return
 	}
+	if lineIsDocGoLink(line) {
+		return
+	}
 	format := "%s:%v trim %v chars"
 	l.failedLines = append(l.failedLines, fmt.Sprintf(format, file, no,
 		len(line)-l.MaxChars))
+}
+
+func lineIsDocGoLink(line string) bool {
+	// e.g.
+	// [Label]: https://example.com/with/a/very/long/pathname/we/really/want/to/keep/on/one/line
+	// good enough for now
+	return strings.Contains(line, "]: http")
 }
 
 func (l *LineLength) failIfFound(t T) {

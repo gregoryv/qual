@@ -2,6 +2,11 @@
 This project adheres to semantic versioning.
 All notable changes to this project will be documented in this file.
 
+## [0.5.1-dev]
+
+- Ignore long lines that look like Go reference links. URL's tend to be
+  long and cannot be split on multiple lines.
+
 ## [0.5.0] 2025-11-19
 
 - Add func Gofumpt
