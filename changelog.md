@@ -2,7 +2,7 @@
 This project adheres to semantic versioning.
 All notable changes to this project will be documented in this file.
 
-## [0.5.0-dev]
+## [0.5.0] 2025-11-19
 
 - Add func Gofumpt
 - Remove FixDuration, proven not very useful
