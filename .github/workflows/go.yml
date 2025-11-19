@@ -10,9 +10,11 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/gregoryv/qual:0.1
+
     steps:
     - uses: actions/checkout@v3
 
@@ -25,4 +27,4 @@ jobs:
       run: go build -v ./...
 
     - name: Test
-      run: go test -v ./...
+      run: go test -v ./... | gocolor
