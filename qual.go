@@ -34,9 +34,11 @@ var standardLineLength = LineLength{
 }
 
 type LineLength struct {
-	MaxChars         int
-	TabSize          int
-	IncludeVendor    bool
+	MaxChars int
+	TabSize  int
+	// Include all go files in directory vendor/
+	IncludeVendor bool
+	// Include files containing the phrase "DO NOT EDIT"
 	IncludeGenerated bool
 	// Set to true if lines with urls should be considered
 	IncludeURLs bool
@@ -45,7 +47,8 @@ type LineLength struct {
 }
 
 // LineLength fails if any go file contains lines exceeding maxChars.
-// All lines are considered, source and comments.
+// All lines are considered, source and comments. Test SHOULD only be
+// called once.
 func (l *LineLength) Test(t T) {
 	t.Helper()
 	files := findGoFiles(l.IncludeVendor)
