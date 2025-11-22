@@ -38,6 +38,8 @@ type LineLength struct {
 	TabSize          int
 	IncludeVendor    bool
 	IncludeGenerated bool
+	// Set to true if lines with urls should be considered
+	IncludeURLs bool
 
 	failedLines []string
 }
@@ -78,7 +80,7 @@ func (l *LineLength) check(file, line, tab string, no int) {
 	if len(line) <= l.MaxChars {
 		return
 	}
-	if lineIsDocGoLink(line) {
+	if !l.IncludeURLs && lineContainsURL(line) {
 		return
 	}
 	format := "%s:%v trim %v chars"
@@ -86,11 +88,15 @@ func (l *LineLength) check(file, line, tab string, no int) {
 		len(line)-l.MaxChars))
 }
 
-func lineIsDocGoLink(line string) bool {
-	// e.g.
-	// [Label]: https://example.com/with/a/very/long/pathname/we/really/want/to/keep/on/one/line
-	// good enough for now
-	return strings.Contains(line, "]: http")
+func lineContainsURL(line string) bool {
+	// e.g. https://example.com/with/a/very/long/pathname/we/really/want/to/keep/on/one/line
+	switch {
+	case strings.Contains(line, "https://"):
+	case strings.Contains(line, "http://"):
+	default:
+		return false
+	}
+	return true
 }
 
 func (l *LineLength) failIfFound(t T) {
